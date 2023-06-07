@@ -33,6 +33,7 @@ const { Text } = Typography;
 
 const blockExplorerLink = (address, blockExplorer) => `${blockExplorer || "https://etherscan.io/"}address/${address}`;
 
+// 地址
 export default function Address(props) {
   const { currentTheme } = useThemeSwitcher();
   const address = props.value || props.address;

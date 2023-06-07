@@ -44,6 +44,7 @@ const noContractDisplay = (
 
 const isQueryable = fn => (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length === 0;
 
+// 显示合约接口
 export default function Contract({
   customContract,
   account,
@@ -57,9 +58,14 @@ export default function Contract({
   chainId,
   contractConfig,
 }) {
+  // 拿到区块链上的合约列表，通过provider获取
   const contracts = useContractLoader(provider, contractConfig, chainId);
+
+  // 合约
   let contract;
+  // 是否为自定义合约
   if (!customContract) {
+    // 根据名称拿到合约
     contract = contracts ? contracts[name] : "";
   } else {
     contract = customContract;
@@ -68,9 +74,11 @@ export default function Contract({
   const address = contract ? contract.address : "";
   const contractIsDeployed = useContractExistsAtAddress(provider, address);
 
+  // 这里的合约接口来自ethers.js
   const displayedContractFunctions = useMemo(() => {
     const results = contract
       ? Object.entries(contract.interface.functions).filter(
+          // 只显示函数，且函数名称大于0
           fn => fn[1]["type"] === "function" && !(show && show.indexOf(fn[1]["name"]) < 0),
         )
       : [];
@@ -78,15 +86,22 @@ export default function Contract({
   }, [contract, show]);
 
   const [refreshRequired, triggerRefresh] = useState(false);
-  const contractDisplay = displayedContractFunctions.map(contractFuncInfo => {
-    const contractFunc =
-      contractFuncInfo[1].stateMutability === "view" || contractFuncInfo[1].stateMutability === "pure"
-        ? contract[contractFuncInfo[0]]
-        : contract.connect(signer)[contractFuncInfo[0]];
 
+  // 每一个合约接口的逻辑
+  const contractDisplay = displayedContractFunctions.map(contractFuncInfo => {
+    // 如果为只读函数，那么直接获取，否则要通过signer链接获取
+    // const contractFunc =
+    //   contractFuncInfo[1].stateMutability === "view" || contractFuncInfo[1].stateMutability === "pure"
+    //     ? contract[contractFuncInfo[0]]
+    //     : contract.connect(signer)[contractFuncInfo[0]];
+
+    // 无论如何都签名调用
+    const contractFunc = contract.connect(signer)[contractFuncInfo[0]];
+
+    //
     if (typeof contractFunc === "function") {
       if (isQueryable(contractFuncInfo[1])) {
-        // If there are no inputs, just display return value
+        // 如果无需输入参数，则直接返回结果
         return (
           <DisplayVariable
             key={contractFuncInfo[1].name}
@@ -99,7 +114,7 @@ export default function Contract({
         );
       }
 
-      // If there are inputs, display a form to allow users to provide these
+      // 如果需要参数，则让用户进行输入
       return (
         <FunctionForm
           key={"FF" + contractFuncInfo[0]}

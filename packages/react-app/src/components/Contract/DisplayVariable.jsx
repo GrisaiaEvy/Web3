@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { tryToDisplay } from "./utils";
 
+// 显示只读函数变量
 const DisplayVariable = ({ contractFunction, functionInfo, refreshRequired, triggerRefresh, blockExplorer }) => {
   const [variable, setVariable] = useState("");
 

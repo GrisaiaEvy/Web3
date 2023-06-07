@@ -7,6 +7,8 @@ require("@nomicfoundation/hardhat-chai-matchers");
 require("@tenderly/hardhat-tenderly");
 require("@nomicfoundation/hardhat-toolbox");
 require("hardhat-deploy");
+require('solidity-coverage');
+require("hardhat-gas-reporter");
 
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 
@@ -22,10 +24,11 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 */
 
 //
-// Select the network you want to deploy to here:
+// 在这里选取要部署到哪一个网络
 //
 const defaultNetwork = "localhost";
 
+// 获取助记词，基本上就是获取了私钥
 function mnemonic() {
   try {
     return fs.readFileSync("./mnemonic.txt").toString().trim();
@@ -43,13 +46,14 @@ module.exports = {
   defaultNetwork,
   /**
    * gas reporter configuration that let's you know
-   * an estimate of gas for contract deployments and function calls
+   * an estimate of gas for  contract deployments and function calls
    * More here: https://hardhat.org/plugins/hardhat-gas-reporter.html
    */
   gasReporter: {
-    currency: "USD",
+    currency: "ETH",
     coinmarketcap: process.env.COINMARKETCAP || null,
     enabled: true,
+    gasPrice: 21
   },
 
   // if you want to deploy to a testnet, mainnet, or xdai, you will need to configure:
@@ -103,8 +107,7 @@ module.exports = {
       },
     },
     sepolia: {
-      url: "https://rpc.sepolia.org",
-      // "https://sepolia.infura.io/v3/INFURA_ID",
+      url: "https://sepolia.infura.io/v3/862073482a5346818373473c2978a115",
       accounts: {
         mnemonic: mnemonic(),
       },
@@ -624,6 +627,8 @@ task("send", "Send ETH")
       gasLimit: taskArgs.gasLimit ? taskArgs.gasLimit : 24000,
       chainId: network.config.chainId,
     };
+
+    console.log("获取到的nonce：" + txRequest.nonce)
 
     if (taskArgs.data !== undefined) {
       txRequest.data = taskArgs.data;

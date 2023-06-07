@@ -28,6 +28,16 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     // waitConfirmations: 5,
   });
 
+  await deploy("FightTheLandlord", {
+    // 来自于hardhat社区部署插件
+    // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
+    from: deployer,
+    // 构造函数的参数
+    // args: [ "Hello", ethers.utils.parseEther("1.5") ],
+    log: true,
+    // waitConfirmations: 5,
+  });
+
   // 获取之前部署的合约
   // Getting a previously deployed contract
   // const YourContract = await ethers.getContract("YourContract", deployer);

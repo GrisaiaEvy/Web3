@@ -4,6 +4,7 @@ import Address from "../Address";
 
 const { utils } = require("ethers");
 
+// 尝试格式化结果并显示
 const tryToDisplay = (thing, asText = false, blockExplorer) => {
   if (thing && thing.toNumber) {
     try {

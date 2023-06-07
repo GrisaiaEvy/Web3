@@ -1,0 +1,15 @@
+.room-seat-info {
+  margin-top: -7px;
+  text-align: center;
+}
+.room-seat-role {
+  font-size: 20px;
+}
+.room-seat-rest {
+  font-weight: 900;
+  font-size: 20px;
+}
+.room-operation-main {
+  font-weight: 900;
+  font-size: 16px;
+}
