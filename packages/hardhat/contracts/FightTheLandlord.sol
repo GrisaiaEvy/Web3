@@ -6,6 +6,11 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
+// 1.不使用预言机 2.通过用户的seed发牌 3.服务端可验证 4.全程加密
+
+// 1.先进行初次洗牌，使用随机数做
+// 2.调用dealcard时，获取三个玩家的魔法数
+// 3.根据魔法数洗牌？
 contract FightTheLandlord {
 
     using SafeMath for uint256;
@@ -40,19 +45,23 @@ contract FightTheLandlord {
     // 地址、用户
     mapping(address => uint256[CARDS_PER_PLAYER]) public playerInfos;
 
-    // 比赛id、底牌
+    // 比赛id、底牌 mucked hands
     mapping(string => uint256[BOTTOM_CARD_NUM]) bottomCards;
 
     // 锁定的余额
     uint public lockedBalance;
 
+    struct Match {
+        string matchId;
+        timestamp paymentDeadLine;
+        Player[PLAYER_COUNT] players;
+    }
+
     struct Player {
         address _address;
-        string _matchId;
         bool _isPay;
-        bool _isLandlord;
         uint _value;
-        uint256[] hands;
+        uint256[CARDS_PER_PLAYER] hands;
     }
 
     constructor() {}
@@ -80,13 +89,21 @@ contract FightTheLandlord {
             Player storage p = players[i];
             p._address = playerAddress;
             p._matchId = matchId;
+            playerInfos[playerAddress] = p;
         }
     }
 
     // 1.重新调整入场费，固定即可
+    // 2.防止合约调用
+    // 3.发币原理
+    // 4.
     // plus：如何防止有人退出？这个多搜索一些artical，作为feature
     function pay(string memory matchId) public payable {
         address player = msg.sender;
+        Match storage m =
+        if () {
+
+        }
         if (msg.value < 1 gwei) {
             revert("Wrong fee");
         }
