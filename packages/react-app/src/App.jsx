@@ -481,16 +481,7 @@ function App(props) {
         </Row>
       </div>
 
-      <div style={{ position: "fixed", textAlign: "left", right: 0, bottom: 40, padding: 10 }}>
-        <Events
-          contracts={readContracts}
-          contractName={"FightTheLandlord"}
-          eventName="DealCard"
-          localProvider={localProvider}
-          mainnetProvider={mainnetProvider}
-          startBlock={1}
-        />
-      </div>
+
     </div>
   );
 }

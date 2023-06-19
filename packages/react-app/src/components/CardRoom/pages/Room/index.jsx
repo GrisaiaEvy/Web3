@@ -7,14 +7,16 @@ import GamingRoom from "./GamingRoom";
 import useSetLocation from "../../utils/use-set-location";
 
 const Room = () => {
+
   const setLocation = useSetLocation();
   // room_id 不可变；只能先退出房间再进入新房间
   const [room, setRoom] = useImmer(() => ({
-    id: window.location.pathname.substr(1),
+    id: window.location.pathname.substr(18),
     creator: null,
     players: [null, null, null, null],
-    state: -1,
+    state: 0,
   }));
+  console.log("截取名字" + window.location.pathname)
   const [seat, setSeat] = useState(null);
   const [game, setGame] = useImmer(() => ({
     state: -1,

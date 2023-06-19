@@ -98,6 +98,7 @@ const connect = roomId => {
     disconnect();
     Message("出现异常，连接已断开！请刷新页面！");
   };
+  // 基于事件的消息处理
   _ws.onmessage = event => {
     let data;
     try {

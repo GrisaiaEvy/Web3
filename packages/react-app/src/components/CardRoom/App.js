@@ -6,6 +6,7 @@ import { SetLocationContext } from "./utils/use-set-location";
 const CardRoom = () => {
   const [location, setLocation] = useState(document.location.pathname);
 
+
   const pushHistory = useCallback(location => {
     window.history.pushState(null, null, location);
     setLocation(document.location.pathname);
@@ -22,7 +23,7 @@ const CardRoom = () => {
 
   return (
     <SetLocationContext.Provider value={pushHistory}>
-      {location === "/" ? <Home /> : <Room />}
+      {location === "/fightthelandlord" ? <Home /> : <Room />}
     </SetLocationContext.Provider>
   );
 };

@@ -58,7 +58,7 @@ const Home = () => {
               style={{ margin: "6px auto", maxWidth: 330, display: "flex", justifyContent: "space-between" }}
             >
               <span style={{ textOverflow: "ellipsis", maxWidth: 220, overflowX: "hidden" }}>🏠 {roomId}</span>
-              <button onClick={() => setLocation(`/${roomId}`)}>点此进入</button>
+              <button onClick={() => setLocation(`/fightthelandlord/${roomId}`)}>点此进入</button>
             </div>
           ))}
         </div>
